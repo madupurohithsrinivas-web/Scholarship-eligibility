@@ -1,0 +1,6 @@
+{
+  "name": "LogiScholar - Scholarship & Admission Eligibility Assistant",
+  "description": "Interactive propositional logic evaluation engine that determines college admission and scholarship eligibility through formal logic formulas, truth tables, and requirement gap analysis.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
