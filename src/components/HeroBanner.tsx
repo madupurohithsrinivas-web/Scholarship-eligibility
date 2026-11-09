@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { STUDENT_PERSONAS } from '../data/programs';
 import { StudentProfile } from '../types/logic';
 import { GraduationCap } from 'lucide-react';
+import heroAcademicImage from '../assets/images/hero_academic_logic_1794227047816.jpg';
 
 interface HeroBannerProps {
   onSelectPersona: (profile: StudentProfile, name: string) => void;
@@ -71,7 +72,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
             <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 aspect-16/10">
               {!imageError && (
                 <img
-                  src="/src/assets/images/hero_academic_logic_1794227047816.jpg"
+                  src={heroAcademicImage}
                   alt="Ramanujan Hall of Advanced Learning with students and geometric logic courtyard"
                   referrerPolicy="no-referrer"
                   onLoad={() => setImageLoaded(true)}
