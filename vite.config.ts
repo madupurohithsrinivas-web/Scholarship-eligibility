@@ -1,15 +1,38 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
-import {defineConfig} from 'vite';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { defineConfig, type Plugin } from 'vite';
+
+const __root = fileURLToPath(new URL('.', import.meta.url));
+
+// Vite plugin to ensure GitHub Pages serves SPA correctly with 404 fallback and .nojekyll
+function githubPagesHelper(): Plugin {
+  return {
+    name: 'github-pages-helper',
+    closeBundle() {
+      const distDir = path.resolve(__root, 'dist');
+      if (fs.existsSync(distDir)) {
+        // Ensure .nojekyll exists
+        fs.writeFileSync(path.join(distDir, '.nojekyll'), '');
+        // Duplicate index.html to 404.html so GitHub Pages routing and direct refreshes work
+        const indexPath = path.join(distDir, 'index.html');
+        if (fs.existsSync(indexPath)) {
+          fs.copyFileSync(indexPath, path.join(distDir, '404.html'));
+        }
+      }
+    },
+  };
+}
 
 export default defineConfig(() => {
   return {
-    base: './',
-    plugins: [react(), tailwindcss()],
+    base: process.env.VITE_BASE_PATH || './',
+    plugins: [react(), tailwindcss(), githubPagesHelper()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': __root,
       },
     },
     server: {
